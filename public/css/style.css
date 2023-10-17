@@ -62,11 +62,13 @@ input[type="search"] {
   border-radius: 4px;
   font-weight: 600;
 }
-.btn:hover,
-.btn-delete:hover {
+.btn:hover {
   background-color: #504d4d;
 }
 
+.back-btn {
+  padding: 8px 16px;
+}
 /*Styling input and textarea elements*/
 input,
 textarea {
@@ -78,6 +80,10 @@ textarea {
 .btn-delete {
   padding: 10px 16px;
   background-color: var(--red);
+}
+.btn-delete:hover {
+  padding: 10px 16px;
+  background-color: #cb2a2f;
 }
 /*Logout button*/
 #logout {
@@ -329,6 +335,7 @@ img {
   font-weight: 600;
 }
 
+/*Better effects for search close button*/
 @media only screen and (max-width: 1030px) {
   #searchClose {
     font-weight: 600;
