@@ -5,6 +5,8 @@ require("dotenv").config();
 const express = require("express");
 //Requiring ejs layout
 const expressLayout = require("express-ejs-layouts");
+//Requiring methodOverride which allows us to use PUT and DELETE
+const methodOverride = require("method-override");
 
 /*Used to save the cookies which are used to store the session 
 when we login and thus we dont have to login everytime*/
@@ -44,6 +46,9 @@ app.use(express.static("public"));
 
 //Using the expressLayout
 app.use(expressLayout);
+
+//Methode ovveride
+app.use(methodOverride("_method"));
 
 //Creating main layout and setting the templating engine
 app.set("layout", "./layouts/main");

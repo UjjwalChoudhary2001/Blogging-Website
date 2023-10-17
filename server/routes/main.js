@@ -1,104 +1,90 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const Post = require('../models/Post');
-
+const Post = require("../models/Post");
 
 //Route to show homepage
-router.get('',async (req,res)=>{
-    
-    try{
-    
+router.get("", async (req, res) => {
+  try {
     const locals = {
-        title: "NodeJS blog",
-        description:"Simple Blog created with NodeJs , Express and MongoDb "
-    } ;
-   //  const data = await Post.find();
-  //    res.render('index',{locals,data});
+      title: "BlogWise",
+      description: "Simple Blog created with NodeJs , Express and MongoDb ",
+    };
+    //  const data = await Post.find();
+    //    res.render('index',{locals,data});
 
-   //Below code for displaying 10 post per page only
-   let perPage = 10;
-   let page = req.query.page || 1;
+    //Below code for displaying 10 post per page only
+    let perPage = 10;
+    let page = req.query.page || 1;
 
-   const data = await Post.aggregate([ { $sort: { createdAt: -1 } } ])
-   .skip(perPage * page - perPage)
-   .limit(perPage)
-   .exec();
+    const data = await Post.aggregate([{ $sort: { createdAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
 
-   const count = await Post.count();
-   const nextPage = parseInt(page) + 1;
-   const hasNextPage = nextPage <= Math.ceil(count / perPage);
+    const count = await Post.count();
+    const nextPage = parseInt(page) + 1;
+    const hasNextPage = nextPage <= Math.ceil(count / perPage);
 
-   res.render('index', { 
-     locals,
-     data,
-     current: page,
-     nextPage: hasNextPage ? nextPage : null,
-     currentRoute: '/'
-   });
-
-}
-catch(error)
-{
+    res.render("index", {
+      locals,
+      data,
+      current: page,
+      nextPage: hasNextPage ? nextPage : null,
+    });
+  } catch (error) {
     console.log(error);
-}
+  }
 });
 
-
 //Route to show post details page
-router.get('/post/:id',async(req,res)=>{
-    try{
-        
-        let slug = req.params.id;
-        const data = await Post.findById({_id:slug});
+router.get("/post/:id", async (req, res) => {
+  try {
+    let slug = req.params.id;
+    const data = await Post.findById({ _id: slug });
 
-        const locals = {
-            title: data.title,
-            description:"Simple Blog created with NodeJs , Express and MongoDb "
-        } ;
+    const locals = {
+      title: data.title,
+      description: "Simple Blog created with NodeJs , Express and MongoDb ",
+    };
 
-        res.render('post',{locals,data});
-    }
-    catch(error)
-    {
-        console.log(error);
-    }
-})
+    res.render("post", { locals, data });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 //Route to search a post
-router.post('/search', async(req,res)=>{
-   try{
+router.post("/search", async (req, res) => {
+  try {
     const locals = {
-        title: "Search",
-        description:"Simple Blog created with NodeJs , Express and MongoDb "
+      title: "Search",
+      description: "Simple Blog created with NodeJs , Express and MongoDb ",
     };
-    
+
     let searchTerm = req.body.searchTerm;
 
     //removing special characters from search term
-    const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "")
-    
+    const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
+
     //Searching the document which has the term inside the body or title
     const data = await Post.find({
       $or: [
-        { title: { $regex: new RegExp(searchNoSpecialChar, 'i') }},
-        { body: { $regex: new RegExp(searchNoSpecialChar, 'i') }}
-      ]
+        { title: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+        { body: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+      ],
     });
     // console.log(searchTerm);
     // res.send(searchTerm);
-    res.render('search',{data,locals})
-   }
-   catch(error)
-   {
+    res.render("search", { data, locals });
+  } catch (error) {
     console.log(error);
-   }
+  }
 });
 
-
 //Route to show a details page
-router.get('/about',(req,res)=>{
-res.render('about');
+router.get("/about", (req, res) => {
+  res.render("about");
 });
 
 module.exports = router;
@@ -151,4 +137,3 @@ module.exports = router;
 // }
 
 // insertPostData();
-

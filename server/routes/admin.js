@@ -84,6 +84,7 @@ router.get("/dashboard", authMiddleWare, async (req, res) => {
   }
 });
 
+//Creating new posts
 //Gets activated when Add post button on the dashboard is clicked
 router.get("/add-post", authMiddleWare, async (req, res) => {
   try {
@@ -119,26 +120,58 @@ router.post("/add-post", authMiddleWare, async (req, res) => {
     console.log(error);
   }
 });
-//Admin-Check login
-// router.post('/admin',async(req,res)=>{
-//     try{
-//         const{username,password}=req.body;
-//         console.log(username+" "+password);
 
-//         if(req.body.username==='admin' && req.body.password===password)
-//         {
-//             res.send('You are logged in');
-//         }
-//         else{
-//             res.send('Wrong username or password');
-//         }
-//         res.render('admin/index',{layout:adminLayout});
-//     }
-//     catch(error)
-//     {
-//         console.log(error);
-//     }
-// })
+//Editing the posts
+//GET route activated when we click on edit post button
+router.get("/edit-post/:id", authMiddleWare, async (req, res) => {
+  try {
+    const locals = {
+      title: "Edit Post",
+      description: "Simple Blog created with NodeJs , Express and MongoDb",
+    };
+
+    const data = await Post.findOne({ _id: req.params.id });
+    //Edit form is rendered along with the data of the post
+    res.render("admin/edit-post", {
+      data,
+      layout: adminLayout,
+      locals,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//Inserting the updated post into DB
+router.put("/edit-post/:id", authMiddleWare, async (req, res) => {
+  try {
+    await Post.findByIdAndUpdate(req.params.id, {
+      title: req.body.title,
+      body: req.body.body,
+      updatedAt: Date.now(),
+    });
+    res.redirect(`/edit-post/${req.params.id}`);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//Deleting the posts
+router.delete("/delete-post/:id", authMiddleWare, async (req, res) => {
+  try {
+    await Post.deleteOne({ _id: req.params.id });
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//Admin Logout
+router.get("/logout", (req, res) => {
+  res.clearCookie("token"); //token is the name of the cookie
+  // res.json({ message: "Logout Successful" });
+  res.redirect("/");
+});
 
 //Admin-Register
 router.post("/register", async (req, res) => {
@@ -164,3 +197,24 @@ router.post("/register", async (req, res) => {
 });
 
 module.exports = router;
+
+//Admin-Check login
+// router.post('/admin',async(req,res)=>{
+//     try{
+//         const{username,password}=req.body;
+//         console.log(username+" "+password);
+
+//         if(req.body.username==='admin' && req.body.password===password)
+//         {
+//             res.send('You are logged in');
+//         }
+//         else{
+//             res.send('Wrong username or password');
+//         }
+//         res.render('admin/index',{layout:adminLayout});
+//     }
+//     catch(error)
+//     {
+//         console.log(error);
+//     }
+// })
