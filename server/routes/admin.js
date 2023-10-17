@@ -74,7 +74,7 @@ router.get("/dashboard", authMiddleWare, async (req, res) => {
     };
 
     const data = await Post.find();
-    res.render("admin/Dashboard", {
+    res.render("admin/dashboard", {
       locals,
       data,
       layout: adminLayout,

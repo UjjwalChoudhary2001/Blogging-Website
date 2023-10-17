@@ -51,10 +51,6 @@ app.use(express.static(path.join(__dirname, "public")));
 // Set 'views' directory for any views being rendered res.render()
 app.set("views", path.join(__dirname, "views"));
 
-// Set view engine as EJS
-app.engine("html", require("ejs").renderFile);
-app.set("view engine", "html");
-
 //Using the expressLayout
 app.use(expressLayout);
 
@@ -66,7 +62,7 @@ app.set("layout", "./layouts/main");
 
 //Setting ejs as default engine
 
-// app.set("view engine", "ejs");
+app.set("view engine", "ejs");
 
 app.use("/", require("./server/routes/main"));
 app.use("/", require("./server/routes/admin"));
