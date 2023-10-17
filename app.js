@@ -1,6 +1,6 @@
 //requiring the dotenv file inside our project
 require("dotenv").config();
-
+const path = require("path");
 //Creating express application
 const express = require("express");
 //Requiring ejs layout
@@ -42,7 +42,14 @@ app.use(
 
 //Connecting to DB
 // connectDB();
-app.use(express.static("public"));
+
+// app.use(express.static("public"));
+
+// Require static assets from public folder
+app.use(express.static(path.join(__dirname, "public")));
+
+// Set 'views' directory for any views being rendered res.render()
+app.set("views", path.join(__dirname, "views"));
 
 //Using the expressLayout
 app.use(expressLayout);
