@@ -374,6 +374,9 @@ img {
   line-height: 2;
 }
 
+.admin-post-controls .btn:hover {
+  background-color: #504d4d;
+}
 .admin-posts li {
   display: flex;
   justify-content: space-between;
