@@ -404,14 +404,25 @@ img {
   height: 2rem;
 }
 /* Responsiveness of links in dashboard */
-.post-link,
-.editbtn,
-.dltbtn {
-  @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
+  .post-link,
+  .editbtn,
+  .dltbtn {
     font-size: 14px;
   }
 }
 
+@media only screen and (min-width: 601px) and (max-width: 700px) {
+  .post-link {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (min-width: 701px) {
+  .post-link {
+    font-size: 1.28rem;
+  }
+}
 .list-item {
   display: flex;
   gap: 0;
