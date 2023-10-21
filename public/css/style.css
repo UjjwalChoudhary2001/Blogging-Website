@@ -403,3 +403,18 @@ img {
 .contact-icon {
   height: 2rem;
 }
+/* Responsiveness of links in dashboard */
+.post-link {
+  @media only screen and (max-width: 600px) {
+    font-size: 14px;
+  }
+}
+
+.list-item {
+  display: flex;
+  gap: 0;
+}
+
+.admin-post-controls {
+  display: flex;
+}
