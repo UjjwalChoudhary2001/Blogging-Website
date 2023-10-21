@@ -404,7 +404,9 @@ img {
   height: 2rem;
 }
 /* Responsiveness of links in dashboard */
-.post-link {
+.post-link,
+.editbtn,
+.dltbtn {
   @media only screen and (max-width: 600px) {
     font-size: 14px;
   }
